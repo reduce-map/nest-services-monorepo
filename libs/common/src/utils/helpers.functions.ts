@@ -46,8 +46,8 @@ export function sleep(ms: number): Promise<void> {
 /**
  * Formats milliseconds into a human-readable format like '1d 2h 3m 4s 5ms'
  * or '23ms' or '3d 23ms'; function support days, hours, minutes, seconds and milliseconds
- * @param ms
- * @returns
+ * @returns string with the formatted time
+ * @param milliseconds
  */
 export function formatMilliseconds(milliseconds: number): string {
   if (milliseconds === 0) return '0ms';
