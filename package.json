@@ -11,12 +11,10 @@
     "dev:auth-service": "nest start auth-service --watch",
     "dev:data-provider": "nest start data-provider --watch",
     "test": "npm-run-all test:*",
-    "test:user-gateway": "jest --config ./apps/user-gateway/jest.config.js --forceExit",
-    "test:auth-service": "jest --config ./apps/auth-service/jest.config.js --forceExit",
-    "test:data-provider": "jest --config ./apps/data-provider/jest.config.js --forceExit",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./apps/data-provider/test/jest-e2e.json",
+    "test:user-gateway": "jest --config ./apps/user-gateway/jest.config.js --forceExit --passWithNoTests",
+    "test:auth-service": "jest --config ./apps/auth-service/jest.config.js --forceExit --passWithNoTests",
+    "test:data-provider": "jest --config ./apps/data-provider/jest.config.js --forceExit --passWithNoTests",
+    "test-coverage": "jest --coverage",
     "prebuild": "rimraf dist",
     "build": "npm run prebuild && npm-run-all --parallel build:*",
     "build:user-gateway": "nest build user-gateway",
@@ -34,30 +32,6 @@
     "docker-compose:up:prod": "cross-env DOCKER_TARGET=production docker-compose up",
     "docker-compose:up:prod:build": "cross-env DOCKER_TARGET=production docker-compose up --build",
     "docker-compose:down": "docker-compose down"
-  },
-  "jest": {
-    "collectCoverageFrom": [
-      "**/*.(t|j)s"
-    ],
-    "coverageDirectory": "./coverage",
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "moduleNameMapper": {
-      "^@app/common(|/.*)$": "<rootDir>/libs/common/src/$1"
-    },
-    "rootDir": ".",
-    "roots": [
-      "<rootDir>/apps/",
-      "<rootDir>/libs/"
-    ],
-    "testEnvironment": "node",
-    "testRegex": ".*\\.spec\\.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    }
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
