@@ -1,0 +1,28 @@
+# compiled output
+dist
+
+# dependencies
+node_modules
+**/node_modules
+npm-debug.log
+
+Dockerfile
+.dockerignore
+
+# tests
+coverage
+
+# git, vs config
+.git
+.gitignore
+**/.gitignore
+.husky
+.vscode
+**/.vscode
+
+# docs
+CHANGELOG.md
+README.md
+
+# lint
+commitlint.config.ts
