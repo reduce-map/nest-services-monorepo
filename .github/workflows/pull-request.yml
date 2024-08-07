@@ -1,0 +1,33 @@
+name: Pull request workflow
+
+on:
+  pull_request:
+    branches:
+      - main
+#      - prod
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: 'npm'
+
+# Uncomment for private npm packages
+#      - name: Set npmrc token & registry action
+#        uses: raver119/set-npm-token-action@v1.5
+#        with:
+#          token: ${{ secrets.NPM_TOKEN }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
