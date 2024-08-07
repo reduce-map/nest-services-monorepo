@@ -30,7 +30,7 @@ export enum ConfigDBConnectionNames {
         [ConfigPropertyNames.MONGODB_IS_TSL_ENABLED]: Joi.boolean().default(false),
         [LoggerConfigPropertyNames.LOG_DESTINATION]: Joi.string().default('data-provider-service-logs'),
         [ConfigPropertyNames.DB_AUTH_SOURCE]: Joi.string().default('admin'),
-        [ConfigPropertyNames.DB_PROJECT_X_NAME]: Joi.string().default('projectX'),
+        [ConfigPropertyNames.DB_PROJECT_X_NAME]: Joi.string().default('auth-service'),
         [ConfigPropertyNames.DB_STEAM_CREDENTIALS_NAME]: Joi.string().default('steam_credentials'),
         [ConfigPropertyNames.SWAGGER_PASSWORD]: Joi.string().default('admin'),
       }),

@@ -38,7 +38,6 @@ export class AuthController {
       `User ${loginDto.username} is attempting to log in with ip ${loginDto.ipAddress} and source ${loginDto.source}`,
     );
     const loginResult = await this.authService.login(loginDto);
-    // return { accessToken: 'accessToken', tfaRequired: false };
     return loginResult;
   }
 
