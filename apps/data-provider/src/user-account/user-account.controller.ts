@@ -14,9 +14,7 @@ import { AsyncApiPub, AsyncApiSub } from 'nestjs-asyncapi';
 export class UserAccountController {
   private readonly logger = new Logger(UserAccountController.name);
 
-  constructor(
-    private readonly userAccountService: UserAccountService,
-  ) {}
+  constructor(private readonly userAccountService: UserAccountService) {}
 
   @AsyncApiSub({
     channel: `${RoutingKeys.Find}${RoutingKeysEntities.UserAccount}`,

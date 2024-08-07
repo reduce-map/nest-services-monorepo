@@ -45,8 +45,6 @@ export class AuthService {
         ipAddress: ipAddress,
       };
 
-
-
       const loginResponse: LoginResponse = await firstValueFrom(
         this.authMicroserviceClient.send({ cmd: RoutingKeys.Login }, loginRequestDto),
       );

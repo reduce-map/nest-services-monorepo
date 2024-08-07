@@ -1,4 +1,4 @@
-import { Controller, Logger } from "@nestjs/common";
+import { Controller, Logger } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import {
   RoutingKeys,

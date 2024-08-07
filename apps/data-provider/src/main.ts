@@ -1,12 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import {
-  getRMQOptions,
-  setupAsyncApi,
-  QueueNames,
-  RpcValidationError,
-} from '@app/common';
+import { getRMQOptions, setupAsyncApi, QueueNames, RpcValidationError } from '@app/common';
 import { DataProviderModule } from './data-provider.module';
 import { ConfigPropertyNames } from './config-data-provider-service.module';
 

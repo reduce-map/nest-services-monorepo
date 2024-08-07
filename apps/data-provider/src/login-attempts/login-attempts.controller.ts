@@ -1,11 +1,6 @@
 import { Controller, Logger } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
-import {
-  RoutingKeys,
-  RoutingKeysEntities,
-  LoginAttemptResponse,
-  LoginAttemptRequest,
-} from '@app/common';
+import { RoutingKeys, RoutingKeysEntities, LoginAttemptResponse, LoginAttemptRequest } from '@app/common';
 import { LoginAttemptsService } from './login-attempts.service';
 import { ApiTags } from '@nestjs/swagger';
 import { AsyncApiPub, AsyncApiSub } from 'nestjs-asyncapi';
@@ -14,9 +9,7 @@ import { AsyncApiPub, AsyncApiSub } from 'nestjs-asyncapi';
 @Controller('login-attempts')
 export class LoginAttemptsController {
   private readonly logger = new Logger(LoginAttemptsController.name);
-  constructor(
-    private readonly loginAttemptsService: LoginAttemptsService,
-  ) {}
+  constructor(private readonly loginAttemptsService: LoginAttemptsService) {}
 
   @AsyncApiSub({
     channel: `${RoutingKeys.Create}${RoutingKeysEntities.LoginAttempt}`,

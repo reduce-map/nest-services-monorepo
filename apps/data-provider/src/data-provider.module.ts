@@ -6,12 +6,6 @@ import { LoginAttemptsModule } from './login-attempts/login-attempts.module';
 import { ProxyModule } from './proxy/proxy.module';
 
 @Module({
-  imports: [
-    ConfigDataProviderServiceModule,
-    DatabaseModule,
-    UserAccountModule,
-    LoginAttemptsModule,
-    ProxyModule,
-  ],
+  imports: [ConfigDataProviderServiceModule, DatabaseModule, UserAccountModule, LoginAttemptsModule, ProxyModule],
 })
 export class DataProviderModule {}

@@ -18,9 +18,7 @@ import { CreateProxyDto } from '@app/common';
 @Controller('proxy')
 export class ProxyController {
   private readonly logger = new Logger(ProxyController.name);
-  constructor(
-    private readonly proxyService: ProxyService,
-  ) {}
+  constructor(private readonly proxyService: ProxyService) {}
 
   @MessagePattern({ cmd: RoutingKeys.Find, entity: RoutingKeysEntities.Proxy })
   async handleFindProxies(query: ProxyFindRequest): Promise<ProxyFindResponse> {
