@@ -28,7 +28,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly userService: UserService,
   ) {
-    this.tfaVerifications = new Map();
+    this.tfaVerifications = new Map(); // assumption
   }
 
   async login(loginDto: LoginMsgRequest): Promise<LoginResponse> {

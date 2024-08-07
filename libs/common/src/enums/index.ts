@@ -48,3 +48,7 @@ export enum RoutingKeysEntities {
 export enum TFASecretSource {
   TOTP = 'TOTP',
 }
+
+export enum LoggerConfigPropertyNames {
+  LOG_DESTINATION = 'LOG_DESTINATION',
+}
