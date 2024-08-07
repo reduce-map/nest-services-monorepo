@@ -1,0 +1,4 @@
+services:
+  user-gateway:
+    ports:
+      - '${DOCKER_PORT_USER_GATEWAY:-3000}:3000'
