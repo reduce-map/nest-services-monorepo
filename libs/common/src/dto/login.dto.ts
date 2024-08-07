@@ -93,7 +93,7 @@ export class LoginAttemptRequest {
 
   @ApiProperty()
   @IsNotEmpty()
-  // @IsDate() TODO check date validation
+  // @IsDate() TBD: or date validation
   @IsString()
   attemptTime!: Date;
 
