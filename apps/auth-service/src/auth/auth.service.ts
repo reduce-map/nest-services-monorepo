@@ -81,6 +81,7 @@ export class AuthService {
     try {
       const jwtPayload = this.jwtService.verify(token) as JwtPayloadDto;
       const user = await this.userService.getUserById(jwtPayload.userId);
+      console.log(user, jwtPayload, token, 'user');
       if (!user) return false;
       const session = user.sessions.find((s: UserSessionDto) => s.token === token);
       if (!session) return false;

@@ -1,0 +1,61 @@
+services:
+  user-gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - SERVICE_NAME=user-gateway
+      target: ${DOCKER_TARGET:-production}
+    image: services-monorepo-user-gateway:${DOCKER_TARGET:-production}
+    environment:
+      - SERVICE_NAME=user-gateway
+    volumes:
+      - ./apps/user-gateway:/usr/src/app/apps/user-gateway
+      - ./logs:/usr/src/app/logs
+    env_file:
+      - ./apps/user-gateway/.env.docker
+    depends_on:
+      - auth-service
+      - data-provider
+    networks:
+      - project-network
+  auth-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - SERVICE_NAME=auth-service
+      target: ${DOCKER_TARGET:-production}
+    image: services-monorepo-auth-service:${DOCKER_TARGET:-production}
+    environment:
+      - SERVICE_NAME=auth-service
+    volumes:
+      - ./apps/auth-service:/usr/src/app/apps/auth-service
+      - ./logs:/usr/src/app/logs
+    env_file:
+      - ./apps/auth-service/.env.docker
+    depends_on:
+      - data-provider
+    networks:
+      - project-network
+  data-provider:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - SERVICE_NAME=data-provider
+      target: ${DOCKER_TARGET:-production}
+    image: services-monorepo-data-provider:${DOCKER_TARGET:-production}
+    environment:
+      - SERVICE_NAME=data-provider
+    volumes:
+      - ./apps/data-provider:/usr/src/app/apps/data-provider
+      - ./logs:/usr/src/app/logs
+    env_file:
+      - ./apps/data-provider/.env.docker
+    networks:
+      - project-network
+
+networks:
+  project-network:
+    external: true

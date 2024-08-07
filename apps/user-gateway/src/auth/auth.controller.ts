@@ -1,13 +1,6 @@
 import { Body, Controller, HttpCode, HttpStatus, Post, Req, Logger } from '@nestjs/common';
 import type { Request } from 'express';
-import {
-  LoginRequest,
-  LoginResponse,
-  TFARequest,
-  TFAResponse,
-  LogoutRequest,
-  LogoutResponse,
-} from '@app/common';
+import { LoginRequest, LoginResponse, TFARequest, TFAResponse, LogoutRequest, LogoutResponse } from '@app/common';
 import {
   ApiOkResponse,
   ApiTooManyRequestsResponse,
@@ -25,9 +18,7 @@ import { AuthService } from './auth.service';
 export class AuthController {
   private readonly logger = new Logger(AuthController.name);
 
-  constructor(
-    private readonly authService: AuthService,
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Post('login')
   @ApiOperation({ summary: 'Login user with username and password' })
