@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import Joi from 'joi';
+import * as Joi from 'joi';
 
 export enum ConfigPropertyNames {
   RABBITMQ_AUTH_SERVICE_URI = 'RABBITMQ_AUTH_SERVICE_URI',

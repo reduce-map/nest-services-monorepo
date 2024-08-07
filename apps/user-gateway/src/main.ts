@@ -5,11 +5,35 @@ import { setupSwagger } from '@app/common';
 import { UserGatewayModule } from './user-gateway.module';
 import { ConfigPropertyNames } from './config-user-gateway.module';
 
+// import { WinstonModule } from 'nest-winston';
+// import * as winston from 'winston';
+
 async function bootstrap() {
-  const app = await NestFactory.create(UserGatewayModule);
+  const app = await NestFactory.create(UserGatewayModule, {
+    // logger: WinstonModule.createLogger({
+    //   transports: [
+    //     new winston.transports.Console({
+    //       format: winston.format.combine(
+    //         winston.format.timestamp(),
+    //         winston.format.ms(),
+    //         winston.format.colorize(),
+    //         winston.format.printf(({ timestamp, level, message }) => {
+    //           return `${timestamp} [${level}]: ${message}`;
+    //         }),
+    //       ),
+    //     }),
+    //     new winston.transports.File({
+    //       filename: 'logs/combined.log',
+    //       format: winston.format.combine(
+    //         winston.format.timestamp(),
+    //         winston.format.json(),
+    //       ),
+    //     }),
+    //   ],
+    // }),
+  });
 
   const config: ConfigService = app.get(ConfigService);
-  // const logger: LoggerService = app.get(LoggerService);
   const port: number = config.getOrThrow(ConfigPropertyNames.PORT);
   const globalPrefix: string = config.getOrThrow(ConfigPropertyNames.API_PREFIX);
 
@@ -24,7 +48,7 @@ async function bootstrap() {
       },
     }),
   );
-  // app.useGlobalInterceptors(new LoggingInterceptor(logger));
+
   setupSwagger(app, {
     title: 'User Gateway',
   });

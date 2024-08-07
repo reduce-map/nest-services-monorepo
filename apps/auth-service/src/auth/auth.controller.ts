@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Logger } from "@nestjs/common";
 import { MessagePattern } from '@nestjs/microservices';
 import {
   RoutingKeys,
@@ -17,6 +17,7 @@ import { AuthService } from './auth.service';
 
 @Controller()
 export class AuthController {
+  private readonly logger = new Logger(AuthController.name);
   constructor(private readonly authService: AuthService) {}
 
   @AsyncApiPub({
@@ -33,11 +34,11 @@ export class AuthController {
   })
   @MessagePattern({ cmd: RoutingKeys.Login })
   public async login(loginDto: LoginMsgRequest): Promise<LoginResponse> {
-    // this.logger?.info(
-    //   `User ${loginDto.username} is attempting to log in with ip ${loginDto.ipAddress} and source ${loginDto.source}`,
-    // );
-
+    this.logger.log(
+      `User ${loginDto.username} is attempting to log in with ip ${loginDto.ipAddress} and source ${loginDto.source}`,
+    );
     const loginResult = await this.authService.login(loginDto);
+    // return { accessToken: 'accessToken', tfaRequired: false };
     return loginResult;
   }
 
@@ -55,9 +56,9 @@ export class AuthController {
   })
   @MessagePattern({ cmd: RoutingKeys.SubmitTFA })
   public async submitTFA(tfaDto: TFARequest): Promise<TFAResponse> {
-    // this.logger?.info(
-    //   `User with tfa verification token ${tfaDto.tfaVerificationToken} is submitting TFA code ${tfaDto.code}`,
-    // );
+    this.logger.log(
+      `User with tfa verification token ${tfaDto.tfaVerificationToken} is submitting TFA code ${tfaDto.code}`,
+    );
     return await this.authService.submitTFACode(tfaDto);
   }
 
@@ -95,7 +96,7 @@ export class AuthController {
   public async logout(logoutDto: LogoutRequest): Promise<LogoutResponse> {
     const jwtPayload = this.authService.getJwtPayload(logoutDto.token);
     if (!jwtPayload) throw new JwtTokenInvalidError();
-    // this.logger?.info(`User ${jwtPayload.username} is logging out`);
+    this.logger.log(`User ${jwtPayload.username} is logging out`);
     await this.authService.logout(logoutDto.token);
     return { success: true };
   }

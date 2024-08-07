@@ -6,11 +6,11 @@ import {
   Injectable,
   InternalServerErrorException,
   UnauthorizedException,
+  Logger,
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import {
-  // LoggerService,
   DITokenNames,
   RoutingKeys,
   IncorrectTFACodeError,
@@ -29,10 +29,11 @@ import {
 
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger(AuthService.name);
+
   constructor(
     @Inject(DITokenNames.AUTHENTICATION_SERVICE)
     private readonly authMicroserviceClient: ClientProxy,
-    // private readonly logger: LoggerService,
   ) {}
 
   async login(httpLoginRequestDto: LoginRequest, ipAddress: string, source: string): Promise<LoginResponse> {
@@ -43,9 +44,11 @@ export class AuthService {
         source: source,
         ipAddress: ipAddress,
       };
+
       const loginResponse: LoginResponse = await firstValueFrom(
         this.authMicroserviceClient.send({ cmd: RoutingKeys.Login }, loginRequestDto),
       );
+
       return loginResponse;
     } catch (error: any) {
       switch (error.constructor) {
@@ -58,10 +61,10 @@ export class AuthService {
             HttpStatus.TOO_MANY_REQUESTS,
           );
         case RpcValidationError:
-          // const validError = error as RpcValidationError;
-          // this.logger.error(
-          //   'Unexpected login RPC request validation error: ' + JSON.stringify(validError.validationErrors),
-          // );
+          const validError = error as RpcValidationError;
+          this.logger.error(
+            'Unexpected login RPC request validation error: ' + JSON.stringify(validError.validationErrors),
+          );
           throw new InternalServerErrorException();
       }
       throw error;
@@ -85,10 +88,10 @@ export class AuthService {
         case IncorrectTFACodeError:
           throw new UnauthorizedException('Invalid TFA code');
         case RpcValidationError:
-          // const validError = error as RpcValidationError;
-          // this.logger.error(
-          //   'Unexpected submit TFA RPC request validation error: ' + JSON.stringify(validError.validationErrors),
-          // );
+          const validError = error as RpcValidationError;
+          this.logger.error(
+            'Unexpected submit TFA RPC request validation error: ' + JSON.stringify(validError.validationErrors),
+          );
           throw new InternalServerErrorException();
       }
       throw error;
@@ -102,10 +105,10 @@ export class AuthService {
     } catch (error: any) {
       switch (error.constructor) {
         case RpcValidationError:
-          // const validError = error as RpcValidationError;
-          // this.logger.error(
-          //   'Unexpected logout RPC request validation error: ' + JSON.stringify(validError.validationErrors),
-          // );
+          const validError = error as RpcValidationError;
+          this.logger.error(
+            'Unexpected logout RPC request validation error: ' + JSON.stringify(validError.validationErrors),
+          );
           throw new InternalServerErrorException();
         case JwtTokenInvalidError:
           throw new UnauthorizedException('Invalid token');

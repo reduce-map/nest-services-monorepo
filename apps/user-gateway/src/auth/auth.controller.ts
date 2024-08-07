@@ -1,7 +1,6 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, Req } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Post, Req, Logger } from '@nestjs/common';
 import type { Request } from 'express';
 import {
-  // LoggerService,
   LoginRequest,
   LoginResponse,
   TFARequest,
@@ -24,8 +23,9 @@ import { AuthService } from './auth.service';
 @ApiTags('User Authentication')
 @Controller()
 export class AuthController {
+  private readonly logger = new Logger(AuthController.name);
+
   constructor(
-    // private readonly logger: LoggerService,
     private readonly authService: AuthService,
   ) {}
 
@@ -51,9 +51,7 @@ export class AuthController {
   async login(@Req() request: Request, @Body() userLoginData: LoginRequest): Promise<LoginResponse> {
     const ipAddress = request.ip!;
     const source = request.get('User-Agent') ?? 'Unknown';
-    // this.logger?.info(
-    //   `User ${userLoginData.username} is attempting to log in with ip ${ipAddress} and source ${source}`,
-    // );
+    this.logger.log(`User ${userLoginData.username} is attempting to log in with IP ${ipAddress} and source ${source}`);
     return await this.authService.login(userLoginData, ipAddress, source);
   }
 
@@ -77,9 +75,9 @@ export class AuthController {
   })
   @HttpCode(HttpStatus.OK)
   async submitTFA(@Body() submitTFAData: TFARequest): Promise<TFAResponse> {
-    // this.logger.info(
-    //   `User with tfa verification token ${submitTFAData.tfaVerificationToken} is submitting TFA code ${submitTFAData.code}`,
-    // );
+    this.logger.log(
+      `User with tfa verification token ${submitTFAData.tfaVerificationToken} is submitting TFA code ${submitTFAData.code}`,
+    );
     return await this.authService.submitTFACode(submitTFAData);
   }
 
@@ -101,7 +99,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async logout(@Body() logoutData: LogoutRequest) {
     await this.authService.logout(logoutData.token);
-    // this.logger.info(`User with token ****${logoutData.token.substring(logoutData.token.length - 5)} is logging out`);
+    this.logger.log(`User with token ****${logoutData.token.substring(logoutData.token.length - 5)} is logging out`);
     return 'User successfully logged out';
   }
 }

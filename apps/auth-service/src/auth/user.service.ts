@@ -104,29 +104,4 @@ export class UserService {
   public getRequiredTFA(user: UserAccountDto): TFASecretDto | undefined {
     return user.twoFAsecrets.find((tfa: TFASecretDto) => tfa.isEnabled);
   }
-
-  //   async checkLoginAttempts(user: UserAccount) {
-  //     // developing in progress
-  //     const maxAttempts = this.configService.getOrThrow<number>(ConfigPropertyNames.MAX_LOGIN_ATTEMPTS);
-
-  //     const lockoutTime = this.configService.getOrThrow<number>(ConfigPropertyNames.LOGIN_LOCKOUT_TIME_MIN) * 60 * 1000;
-  //     // receive all attempts in the last checkWindow, sort them by time, and count all unsuccessful after the last successful
-
-  //     const attempts = (
-  //       await this.loginAttemptRepository.findMany({
-  //         userAccount: user._id,
-  //         attemptTime: { $gt: new Date(Date.now() - lockoutTime) },
-  //       })
-  //     ) // get all attempts in the window of lockout time
-  //       .sort((a, b) => b.attemptTime.getTime() - a.attemptTime.getTime()); // sort by time descending, so that the newest attempts come first
-  //     if (attempts.length === 0) return;
-  //     const firstSuccessfulAttempt = attempts.findIndex((a) => a.isSuccess); // get the index of the last successful attempt
-  //     if (firstSuccessfulAttempt !== -1) attempts.splice(0, firstSuccessfulAttempt); // remove all attempts before the last successful, because they are irrelevant
-
-  //     if (attempts.length >= maxAttempts)
-  //       // if there are more than maxAttempts, check if the last attempt is older than lockoutTime
-  //       throw new TooManyLoginAttemptsError({
-  //         tryAgainAfterMs: lockoutTime - (Date.now() - attempts[0].attemptTime.getTime()),
-  //       });
-  //   }
 }
